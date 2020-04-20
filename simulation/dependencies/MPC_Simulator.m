@@ -16,7 +16,7 @@ function [y_t, u_t] = MPC_Simulator(ref_1, ref_2, T,H,q_,E,F1,z_min,z_max,n,m,N_
     
     for i = 1:T-1
 
-        %Simulate Plant 
+        %Simulate Plant Response
         x_plant(:,i+1) = A_d*x_plant(:,i) + B_d*u_t(:,i); 
         y_t(:,i) = C_d * x_plant(:,i);
 

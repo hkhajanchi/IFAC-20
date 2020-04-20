@@ -9,18 +9,10 @@ Ts = 1.0;
 
 T = sim_length/Ts; %number of samples in simulation
 
-%DC Voltage for Setpoints (setpoint 1 is a square wave)
-refHgt_0= 2.8; 
-refHgt_1 = 2.8;
+%DC Voltage for Setpoint
 
-% Frequency of square wave (1/200 Hz for now, 7 switches per simulation)
-ref_freq = 1/200;
-
-% DC Setpoint for Tank 1
-ref_0 = ones(1,1400) * refHgt_0; 
-
-% Square Wave setpoint for Tank 2
-ref_1 = ((square( (2*pi*ref_freq).*linspace(1,1400,1400)) + 1)*0.5) * refHgt_1; 
+ref_0 = ones(1,1400) * REFERENCE_0_HGT; 
+ref_1 = ones(1,1400); 
 
 
 %------------Generate MPC Parameters-------------
