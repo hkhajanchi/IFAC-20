@@ -14,7 +14,7 @@ refHgt_0= 2.8;
 refHgt_1 = 2.8;
 
 % Frequency of square wave (1/200 Hz for now, 7 switches per simulation)
-ref_freq = 1/200;
+ref_freq = 1/1000;
 
 % DC Setpoint for Tank 1
 ref_0 = ones(1,1400) * refHgt_0; 
@@ -43,7 +43,7 @@ rdim=n+m;
 N_h = 10; 
 
 %Control Weights Generation
-Q = 1*eye(n); 
+Q = 10*eye(n); 
 R = 10*eye(m); 
 P = idare(A_d,B_d,Q,R,[],[]);
 
@@ -114,7 +114,7 @@ F1 = [A_d; zeros(n*(N_h-1),n)];
 % --------------Run Model--------------------------
 
 
-[y_t,u_t] = MPC_Simulator(ref_0,ref_1,T,H,q_,E,F1,z_min,z_max,n,m,N_h,A_d,B_d,C_d,Aob,Bob,Cob,Ld); 
+[y_t,u_t,quadprog_runtimes, pd_runtimes] = MPC_Simulator(ref_0,ref_1,T,H,q_,E,F1,z_min,z_max,n,m,N_h,A_d,B_d,C_d,Aob,Bob,Cob,Ld); 
 
 
 % Output Plotting
@@ -144,3 +144,12 @@ hold off;
 xlabel('Time (sample number)');
 ylabel('Voltage (V)'); 
 legend ('Control Input - Tank 1', 'Control Input - Tank 2'); 
+
+avg_quad_runtime = sum(quadprog_runtimes)/1400; 
+avg_pd_runtime = sum(pd_runtimes)/1400; 
+
+disp ("Average quadprog runtime:")
+avg_quad_runtime * 1000
+
+disp("Average Primal-Dual runtime:")
+avg_pd_runtime * 1000
